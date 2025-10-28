@@ -46,7 +46,7 @@ const updateStats = () => {
   const exp = transactions.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0)
   totalIncome.textContent = '₹'+inc
   totalExpense.textContent = '₹'+exp
-  totalBalance.textContent = '₹'+(inc+exp)
+  totalBalance.textContent = '₹'+(inc-exp)
   const catTotals = {}
   transactions.filter(t=>t.type==='expense').forEach(t=>catTotals[t.category]=(catTotals[t.category]||0)+t.amount)
   const top = Object.entries(catTotals).sort((a,b)=>b[1]-a[1])[0]
