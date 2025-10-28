@@ -45,4 +45,29 @@ button:hover{opacity:.9}
 }
 .modal-content ul{list-style:none;padding:0;margin:10px 0;max-height:200px;overflow-y:auto}
 .modal-content li{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
-.modal-content button{margin-top:7px}
+.modal-content button{margin-top:5px}
+
+@keyframes bounce{
+                from{ }
+                50% {transform: translateY(-100px); }
+                to {}
+            }
+
+.ballWrap{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            } 
+
+.ball{
+                width:200px;
+                height: 200px;
+                border-radius: 50%;
+                background-color: aquamarine;
+                animation: bounce 2s ease infinite;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+       } 
