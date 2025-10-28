@@ -45,7 +45,7 @@ const updateStats = () => {
   const inc = transactions.filter(t=>t.type==='income').reduce((a,b)=>a+b.amount,0)
   const exp = transactions.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amount,0)
   totalIncome.textContent = '₹'+inc
-  totalExpense.textContent = '₹'+exp
+  totalExpense.textContent = '₹'-exp
   totalBalance.textContent = '₹'+(inc-exp)
   const catTotals = {}
   transactions.filter(t=>t.type==='expense').forEach(t=>catTotals[t.category]=(catTotals[t.category]||0)+t.amount)
