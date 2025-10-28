@@ -26,7 +26,7 @@ const categoryColors={
 }
 
 const save=()=>localStorage.setItem('transactions',JSON.stringify(transactions))
-const round=v=>Math.round(v)
+const round = v => Math.round(v * 100) / 100
 
 const render=()=>{
   list.innerHTML=''
