@@ -63,6 +63,22 @@
     </div>
   </section>
 
+  <div class="month-filter">
+  <input type="month" id="monthFilter">
+  <button id="editCategoriesBtn">Edit Categories</button>
+</div>
+
+<!-- Category Edit Modal -->
+<div id="categoryModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Edit Categories</h3>
+    <ul id="categoryList"></ul>
+    <input type="text" id="newCategoryInput" placeholder="New Category">
+    <button id="addCategoryBtn">Add</button>
+    <button id="closeModal">Close</button>
+  </div>
+</div>
+
   <section class="history">
     <h2>Transaction History</h2>
     <ul id="transactionList"></ul>
