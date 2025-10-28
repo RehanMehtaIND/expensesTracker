@@ -14,15 +14,27 @@ const filterCategory=document.getElementById('filterCategory')
 const startDate=document.getElementById('startDate')
 const endDate=document.getElementById('endDate')
 
+const monthFilter = document.getElementById('monthFilter')
+const editCategoriesBtn = document.getElementById('editCategoriesBtn')
+const categoryModal = document.getElementById('categoryModal')
+const closeModal = document.getElementById('closeModal')
+const categoryList = document.getElementById('categoryList')
+const newCategoryInput = document.getElementById('newCategoryInput')
+const addCategoryBtn = document.getElementById('addCategoryBtn')
+
 let transactions=JSON.parse(localStorage.getItem('transactions'))||[]
 let darkMode=JSON.parse(localStorage.getItem('darkMode'))||false
 if(darkMode)document.body.classList.add('dark')
 
-const categoryIcons={
-  Food:'🍔',Bills:'💡',Travel:'✈️',Shopping:'🛍️',Entertainment:'🎮',Savings:'💰',Others:'📦'
+let categories = JSON.parse(localStorage.getItem('categories')) || {
+  Food:'🍔',Bills:'💡',Travel:'✈️',Shopping:'🛍️',Entertainment:'🎮',Savings:'💰',Others:'📦',
+  Family:'👨‍👩‍👧‍👦',Friends:'🤝'
 }
-const categoryColors={
-  Food:'#ef5350',Bills:'#ab47bc',Travel:'#29b6f6',Shopping:'#5c6bc0',Entertainment:'#ffb300',Savings:'#66bb6a',Others:'#8d6e63'
+
+const categoryColors = {
+  Food:'#ef5350',Bills:'#ab47bc',Travel:'#29b6f6',Shopping:'#5c6bc0',
+  Entertainment:'#ffb300',Savings:'#66bb6a',Others:'#8d6e63',
+  Family:'#42a5f5',Friends:'#7e57c2'
 }
 
 const save=()=>localStorage.setItem('transactions',JSON.stringify(transactions))
@@ -33,6 +45,15 @@ const render=()=>{
   let filtered=transactions.filter(t=>filterCategory.value==='All'||t.category===filterCategory.value)
   if(startDate.value)filtered=filtered.filter(t=>new Date(t.date)>=new Date(startDate.value))
   if(endDate.value)filtered=filtered.filter(t=>new Date(t.date)<=new Date(endDate.value))
+
+  if (monthFilter.value) {
+  const [year, month] = monthFilter.value.split('-')
+  filtered = filtered.filter(t=>{
+    const d = new Date(t.date)
+    return d.getFullYear()==year && (d.getMonth()+1)==+month
+  })
+}
+  
   filtered.forEach((t,i)=>{
     const li=document.createElement('li')
     li.className='transaction-item'
@@ -128,4 +149,68 @@ const drawCharts=()=>{
   const dates=Object.keys(daily).sort(),vals=dates.map(d=>round(daily[d]))
   lineChart=new Chart(ctx2,{type:'line',data:{labels:dates,datasets:[{label:'Net',data:vals,fill:false,borderColor:'#5c6bc0',tension:.2}]}})
 }
+
+const openCategoryModal = () => {
+  categoryList.innerHTML = ''
+  Object.entries(categories).forEach(([name,icon])=>{
+    const li=document.createElement('li')
+    li.innerHTML = `
+      <span>${icon} ${name}</span>
+      <div>
+        <button onclick="renameCategory('${name}')">✏️</button>
+        <button onclick="deleteCategory('${name}')">🗑️</button>
+      </div>`
+    categoryList.appendChild(li)
+  })
+  categoryModal.style.display='flex'
+}
+
+const renameCategory = oldName => {
+  const newName = prompt('Rename category:', oldName)
+  if(newName && !categories[newName]){
+    categories[newName]=categories[oldName]
+    delete categories[oldName]
+    saveCategories()
+    updateCategorySelects()
+    openCategoryModal()
+  }
+}
+
+const deleteCategory = name => {
+  if(confirm(`Delete category "${name}"?`)){
+    delete categories[name]
+    saveCategories()
+    updateCategorySelects()
+    openCategoryModal()
+  }
+}
+
+const saveCategories = () => localStorage.setItem('categories', JSON.stringify(categories))
+
+const updateCategorySelects = () => {
+  category.innerHTML = ''
+  filterCategory.innerHTML = '<option value="All">All Categories</option>'
+  Object.keys(categories).forEach(c=>{
+    const opt=document.createElement('option')
+    opt.value=c; opt.textContent=c
+    category.appendChild(opt)
+    const opt2=opt.cloneNode(true)
+    filterCategory.appendChild(opt2)
+  })
+}
+
+addCategoryBtn.onclick=()=>{
+  const name=newCategoryInput.value.trim()
+  if(name&&!categories[name]){
+    categories[name]='📁'
+    saveCategories()
+    updateCategorySelects()
+    openCategoryModal()
+    newCategoryInput.value=''
+  }
+}
+editCategoriesBtn.onclick=openCategoryModal
+closeModal.onclick=()=>categoryModal.style.display='none'
+
+updateCategorySelects()
 render()
