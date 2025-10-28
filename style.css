@@ -41,7 +41,7 @@ button:hover{opacity:.9}
   background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;
 }
 .modal-content{
-  background:var(--card);padding:20px;border-radius:15px;width:300px;text-align:center;
+  background:var(--card);padding:21px;border-radius:15px;width:300px;text-align:center;
 }
 .modal-content ul{list-style:none;padding:0;margin:10px 0;max-height:200px;overflow-y:auto}
 .modal-content li{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
