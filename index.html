@@ -30,7 +30,7 @@
     <div class="input-section">
       <input type="text" id="desc" placeholder="Description">
       <input type="number" id="amount" placeholder="Amount">
-      <select> <!--add id category-->
+      <select id = "category"> <!--add id category-->
         <option value="Food">Food</option>
         <option value="Bills">Bills</option>
         <option value="Travel">Travel</option>
@@ -64,8 +64,8 @@
   </section>
 
   <div class="month-filter">
-  <input type="month" id="monthFilter">
-  <button id="editCategoriesBtn">Edit Categories</button>
+  <input type="month">
+  <button id="editCategories">Edit Categories</button><!--create button with id "editCategoriesBtn" and add text Edit Categories-->
 </div>
 
 <!-- Category Edit Modal -->
@@ -84,7 +84,7 @@
     <ul id="transactionList"></ul>
   </section>
 </div>
-<script src="script.js" > </script>
+<script src="script.js" ></script>
 
 <div class="ballWrap">
 <div class="ball">
